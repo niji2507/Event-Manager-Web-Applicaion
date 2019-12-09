@@ -20,6 +20,8 @@ A Web Application that allows users
  
  <h2>Running Demo</h2>
  
+ <h3>Uploaded a Gif Event management application to view the demo</h3> 
+ 
  To run a demo Applcation
  Web application:
   - Install node
@@ -36,7 +38,6 @@ Web server:
  By default, Web app runs in port 4200, and web server runs in port 8080.
  
 <h2> About Application</h2>
-<h5>Uploaded a Gif Event management application to view the demo</h5> 
 
 <ul>
   <li>Basic authentication and authorization</li>
