@@ -1,0 +1,159 @@
+<div class="container-fluid" style="padding: 20px">
+  <div class="alert alert-warning" *ngIf='message != null'>{{message}}</div>
+  <div class="alert alert-success" *ngIf='showFeedback'>{{registrationMessage}}</div>
+  <div style="text-align: left;">
+  <h2 >Event list :</h2>
+  <small>Following table shows the list of events available. You can click on participate to participate in an event.
+         Modify/Delete an event if the event was created by you</small>
+  </div>
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Event name</th>
+      <th scope="col">Participation</th>
+      <th scope="col">Modify if allowed</th>
+      <th scope="col">Register for the event</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let event of eventList">
+      <th scope="row">{{event.eventId}}</th>
+      <td>{{event.eventName}}</td>
+      <td>{{event.description}}</td>
+      <td>
+        <button *ngIf="isCreatedUser(event.createdBy)" type="button" class="btn btn-success" (click)="showEditForm(event,$index)">Modify/Delete</button> 
+        <button *ngIf="!isCreatedUser(event.createdBy)" type="button" class="btn btn-warning" (click)="showEventDetails(event)">Show Details</button>
+      </td>
+      <td>
+        <button type="button" class="btn btn-secondary" *ngIf= "!event.registereduser && (event.userList != null && event.userList.length == event.maxParticipants)">Housefull!!</button>
+        <button *ngIf="!event.registereduser &&(event.userList != null && event.userList.length != event.maxParticipants)" type="button" class="btn btn-primary" (click)="participateInEvent(event)">Register</button>
+        <button  *ngIf="event.registereduser" type="button" class="btn btn-primary" [disabled]="true" >Registered already</button>
+     </td>
+      <td><button *ngIf="isCreatedUser(event.createdBy)" type="button" class="btn btn-secondary" (click)="showUserDetails(event)">Participants</button> </td>
+    </tr>
+  </tbody>
+</table>
+<button type="button" class="btn btn-success" (click)="addEvent()">Add Event</button>
+</div>
+<!--edit form modal-->
+<div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editEventModallabel">Modify/Delete an Event</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-group container" [formGroup]="eventModificationForm">
+            <label>
+            Event Name:
+            <input class="form-control" type="text" formControlName="eventname" required>
+            <span class="text-danger" *ngIf="f.eventname.touched && f.eventname.invalid && f.eventname.errors.required" >
+            Event name is required.
+            </span>    
+            </label>
+            <label>
+            Description:
+            <input class="form-control" type="text" formControlName="description"  required>
+            <span class="text-danger" *ngIf="f.description.touched && f.description.invalid && f.description.errors.required" >
+            Description is required.
+            </span>
+            </label>
+            <label>
+            Duration:
+            <input class="form-control" type="textarea" formControlName="duration">
+            </label>
+            <label>
+            Location:
+            <input class="form-control" type="text" formControlName="location" required>
+            <span class="text-danger" *ngIf="f.location.touched && f.location.invalid && f.location.errors.required" >
+            Location is required.
+            </span>
+            </label>
+            <label>
+            Tags:
+            <input class="form-control" type="text" formControlName="tags" >
+            </label>
+            <label>
+            Fees:
+            <input class="form-control" type="text" formControlName="fees" required>
+            <span class="text-danger" *ngIf="f.fees.touched && f.fees.invalid && f.fees.errors.required" >
+            Fees is required.
+            </span>
+            </label>
+            <label>
+            Max number of participants:
+            <input class="form-control" type="number" formControlName="maxparticipants" required>
+            <span class="text-danger" *ngIf="f.maxparticipants.touched && f.maxparticipants.invalid && f.maxparticipants.errors.required" >
+            No of participants is required.
+            </span>
+            </label>
+         </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="ModifyEvent()">Modify</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" (click) ="DeleteEvent()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+<div class="modal fade" id="showEventModal" tabindex="-1" role="dialog" aria-labelledby="showEventModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showEventModalLabel">Here are the details of event !!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-group container">
+            <label>Event Name: {{eventDetails.eventName}}</label> <br>
+            <label>Description: {{eventDetails.description}}</label><br>
+            <label>Duration: {{eventDetails.duration}}</label><br>
+            <label>Location: {{eventDetails.location}}</label><br>
+            <label>Tags: {{eventDetails.tags}}</label><br>
+            <label>Fees: {{eventDetails.fees}}</label><br>
+            <label>Max number of participants: {{eventDetails.maxParticipants}}</label><br>
+         </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">OK !</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="showUserDetails" tabindex="-1" role="dialog" aria-labelledby="showUserDetails" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showUserDetailsLabel">List Of Participants</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-group container">
+           <ul *ngFor = "let user of userList">
+             <li> {{user}} </li>
+           </ul>
+         </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">OK !</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

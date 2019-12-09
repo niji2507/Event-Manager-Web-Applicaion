@@ -1,0 +1,57 @@
+<div class="content">
+  <h1>Registration form</h1>
+  <div class="container">
+    <div class="alert alert-warning" *ngIf='userAlreadyExists'>{{errorMessage}}</div>
+    <form class="form-group" [formGroup]="registrationForm">
+    <label>
+    First Name:
+    <input class="form-control" type="text" formControlName="firstname" required>
+    <span class="text-danger" *ngIf="f.firstname.touched && f.firstname.invalid && f.firstname.errors.required" >
+     Firstname is required.
+    </span>
+    
+    </label>
+    <br>
+    <label>
+    Last Name:
+    <input class="form-control" type="text" formControlName="lastname"  required>
+    <span class="text-danger" *ngIf="f.lastname.touched && f.lastname.invalid && f.lastname.errors.required" >
+     Lastname is required.
+    </span>
+    </label>
+    <br>
+    <label>
+    Username:
+    <input class="form-control" type="text" formControlName="username" required>
+     <span class="text-danger" *ngIf="f.username.touched && f.username.invalid && f.username.errors.required" >
+     Username is required.
+    </span>
+    </label>
+ 
+    <br>
+    <label>
+    Password:
+    <input class="form-control" type="password" formControlName="password" required>
+    <span class="text-danger" *ngIf="f.password.touched && f.password.invalid && f.password.errors.required" >
+     Password is required.
+    </span>
+    </label>
+   <label>
+    Email:
+    <input class="form-control" type="text" formControlName="email" required>
+     <span class="text-danger" *ngIf="f.email.touched && f.email.invalid && f.email.errors.required" >
+     Email is required.
+    </span>
+    </label>
+   <label>
+    Contact Number:
+    <input class="form-control" type="text" formControlName="contactNum" required>
+     <span class="text-danger" *ngIf="f.contactNum.touched && f.contactNum.invalid && f.contactNum.errors.required" >
+     Contact Number is required.
+    </span>
+    </label>
+    </form>
+    <button (click)="confirmRegistration()" [disabled]="!registrationForm.valid" class="btn btn-success">Register</button>
+    <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+  </div>
+</div>

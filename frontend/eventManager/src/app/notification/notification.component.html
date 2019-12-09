@@ -1,0 +1,56 @@
+<div class="container-fluid" style="padding: 20px">
+  <div style="text-align: left;">
+  <h2 >Notifications - {{notificationsize}}</h2>
+  <small>Following table shows list of actions performed on the event. You can click on Read to mark the notification as read and entry will be removed.</small>
+  <div class="alert alert-warning" *ngIf='errorFeedback'>{{errorMessage}}</div>
+  <div class="alert alert-success" *ngIf='showFeedback'>{{successMessage}}</div>
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Event name</th>
+      <th scope="col">Action done</th>
+      <th scope="col">Read</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let notification of notificationList">
+      <th>
+      <p *ngIf="notification.action ==='Delete'">{{notification.eventName}}<p>
+      <button type="button" class="btn btn-default" *ngIf="notification.action==='Update'" (click)="openEventsModal(notification.eventId)">{{notification.eventName}}</button></th>
+      <td>{{notification.action}}</td>
+      <td>
+        <button type="button" class="btn btn-success" (click)="markAsRead(notification.notificationId)">Mark As Read</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div  class="modal fade" id="showEventModal" tabindex="-1" role="dialog" aria-labelledby="showEventModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showEventModalLabel">Here are the details of event !!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="eventDetailShow" class="form-group container">
+            <label>Event Name: {{eventDetail.eventName}}</label> <br>
+            <label>Description: {{eventDetail.description}}</label><br>
+            <label>Duration: {{eventDetail.duration}}</label><br>
+            <label>Location: {{eventDetail.location}}</label><br>
+            <label>Tags: {{eventDetail.tags}}</label><br>
+            <label>Fees: {{eventDetail.fees}}</label><br>
+            <label>Max number of participants: {{eventDetail.maxParticipants}}</label><br>
+         </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">OK !</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

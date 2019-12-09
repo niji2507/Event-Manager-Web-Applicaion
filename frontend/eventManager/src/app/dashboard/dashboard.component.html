@@ -1,0 +1,74 @@
+<div class="container">
+   <div class="dashboardContent">
+      <h2>Welcome to Event management Console !!</h2>
+   </div>
+</div>
+<div class="row" style = "padding: 40px">
+   <div class=" col-md-6">
+
+      <div class="palatte">
+         <div class="alert alert-success" *ngIf='showFeedback'>{{message}}</div>
+         <h4 style="text-align:left;margin-left:20px">To Organize a new event enter the below details </h4>
+         <div class="alert alert-warning" *ngIf='userAlreadyExists'>{{errorMessage}}</div>
+         <form class="form-group container" [formGroup]="eventCreationForm">
+            <label>
+            Event Name:
+            <input class="form-control" type="text" formControlName="eventname" required>
+            <span class="text-danger" *ngIf="f.eventname.touched && f.eventname.invalid && f.eventname.errors.required" >
+            Event name is required.
+            </span>    
+            </label>
+            <label>
+            Description:
+            <input class="form-control" type="text" formControlName="description"  required>
+            <span class="text-danger" *ngIf="f.description.touched && f.description.invalid && f.description.errors.required" >
+            Description is required.
+            </span>
+            </label>
+            <label>
+            Duration:
+            <input class="form-control" type="textarea" formControlName="duration">
+            </label>
+            <label>
+            Location:
+            <input class="form-control" type="text" formControlName="location" required>
+            <span class="text-danger" *ngIf="f.location.touched && f.location.invalid && f.location.errors.required" >
+            Location is required.
+            </span>
+            </label>
+            <label>
+            Tags:
+            <input class="form-control" type="text" formControlName="tags" >
+            </label>
+            <label>
+            Fees:
+            <input class="form-control" type="number" formControlName="fees" required>
+            <span class="text-danger" *ngIf="f.fees.touched && f.fees.invalid && f.fees.errors.required" >
+            Fees is required.
+            </span>
+            </label>
+            <label>
+            Max number of participants:
+            <input class="form-control" type="number" formControlName="maxparticipants" required>
+            <span class="text-danger" *ngIf="f.maxparticipants.touched && f.maxparticipants.invalid && f.maxparticipants.errors.required" >
+            No of participants is required.
+            </span>
+            </label>
+         </form>
+         <button (click)="confirmCreation()" [disabled]="!eventCreationForm.valid" class="btn btn-success">Create Event</button>
+         <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="palatte">
+         <h4 style="text-align:left; margin-left:20px">You are part of following events:</h4>
+         <ul class="list-group" *ngFor="let event of eventList">
+            <li class="list-group-item list-group-item-action">{{event.eventName}} - {{event.description}}</li>
+         </ul>
+        <small>To Register for a new event (or) for additional information on any event (or) to modify the events created by you.</small>
+        <small>Click the bellow button</small>
+        <div>
+        <button type="button" class="btn btn-success" (click)="navigateToList()">Goto Events</button></div>
+      </div>
+   </div>
+</div>

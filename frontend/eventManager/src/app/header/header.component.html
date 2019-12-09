@@ -1,0 +1,17 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div style="-webkit-text-fill-color:white ">
+      Event Management Application
+    </div>
+    <ul class="navbar-nav" *ngIf="authenticateService.isUserLoggedIn()">
+      <li><a routerLink="/dashboard" class="nav-link">| Dashboard</a></li>
+      <li><a routerLink="/eventList" class="nav-link"> | Event List</a></li>
+      <li><a routerLink="/notification" class="nav-link"> | Notifications</a></li>
+    </ul>
+    <ul class="navbar-nav navbar-collapse justify-content-end">
+      <li><a *ngIf="!authenticateService.isUserLoggedIn()" routerLink="/login" class="nav-link">Login</a></li>
+      <li><a *ngIf="authenticateService.isUserLoggedIn()" routerLink="/logout" class="nav-link">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
