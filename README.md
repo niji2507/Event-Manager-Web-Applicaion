@@ -78,6 +78,8 @@ Web server:
 <h4>Logout</h4>
  - User will be logged out from application
  
+ <h5>Database model is provided in databaseModel.txt</h5>
+ 
 
  
   
