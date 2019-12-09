@@ -39,7 +39,7 @@ Web server:
  By default, Web app runs in port 4200, and web server runs in port 8080.
  
 <h2> About Application</h2>
-<h5>Database model for Event Management Web Application</h5>
+<h3>Database architecture is provided in Database model for Event Management Web Application.docx</h3>
 <ul>
   <li>Basic authentication and authorization</li>
   <li>Form validation in the UI</li>
